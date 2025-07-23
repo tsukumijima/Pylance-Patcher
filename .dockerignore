@@ -1,0 +1,10 @@
+# Ignore all files and directories in the Docker build context by default
+*
+
+# Exceptions:
+# Include files necessary to install scripts
+!/.python-version
+!/pyproject.toml
+!/uv.lock
+!/ pylance-patcher.md
+!/pylance_patcher.py

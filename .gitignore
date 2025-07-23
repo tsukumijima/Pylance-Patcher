@@ -1,0 +1,7 @@
+# Cache
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# VS Code extension files
+*.vsix
