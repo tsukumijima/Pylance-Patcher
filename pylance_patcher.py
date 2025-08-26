@@ -61,6 +61,12 @@ PATCH_DATA: dict[str, PatchInfo] = {
         "search": "return _0x4ecf62(_0x4bc45e);",
         "replace": "return true;",
     },
+    "2025.7.1": {
+        # via @jamesst20
+        # https://github.com/VSCodium/vscodium/discussions/1641#discussioncomment-13694853
+        "search": "return _0x1d2169(_0x1e7a73);",
+        "replace": "return true;",
+    },
 }
 
 # Supported versions
@@ -227,7 +233,7 @@ def patch(
 ) -> None:
     """Download and patch Pylance VS Code extension.
 
-    Supported versions: 2025.4.1, 2025.6.2, 2025.6.101
+    Supported versions: 2025.4.1, 2025.6.2, 2025.6.101, 2025.7.1
 
     The --vscode-version option clamps the required VS Code version if the extension
     requires a newer version. For example, use --vscode-version 1.96 to make
