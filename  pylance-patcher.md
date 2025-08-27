@@ -6,7 +6,7 @@ Jump to the main script: [pylance_patcher.py](#file-pylance_patcher-py)
 
 Run as a standalone Python script using [uv](https://docs.astral.sh/uv/):
 
-`uv run --script https://gist.githubusercontent.com/realdimas/c025cdba50cc05e0f644eb71bf7efbb9/raw/pylance_patcher.py --help`
+`uv run https://gist.github.com/realdimas/c025cdba50cc05e0f644eb71bf7efbb9 --help`
 
 ## Usage
 
@@ -17,13 +17,13 @@ $ uv run --script pylance_patcher.py --help
 
  Download and patch Pylance VS Code extension.
 
- Supported versions: 2025.4.1, 2025.6.2, 2025.6.101
+ Supported versions: 2025.4.1, 2025.6.2, 2025.6.101, 2025.7.1
  The --vscode-version option clamps the required VS Code version if the extension requires a newer
- version. For example, use --vscode-version 1.96 to make the extension compatible with VS Code
+ version. For example, use --vscode-version 1.96 to declare the extension compatible with VS Code
  1.96.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   version      [VERSION]  Pylance version to patch [default: 2025.6.2]                           │
+│   version      [VERSION]  Pylance version to patch [default: 2025.7.1]                           │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --output              -o      PATH  Output directory [default: .]                                │

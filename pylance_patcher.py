@@ -250,7 +250,7 @@ def patch(
     Supported versions: 2025.4.1, 2025.6.2, 2025.6.101, 2025.7.1
 
     The --vscode-version option clamps the required VS Code version if the extension
-    requires a newer version. For example, use --vscode-version 1.96 to make
+    requires a newer version. For example, use --vscode-version 1.96 to declare
     the extension compatible with VS Code 1.96.
     """
     if version not in SUPPORTED_VERSIONS:
