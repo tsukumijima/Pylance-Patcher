@@ -73,6 +73,20 @@ PATCH_DATA: dict[str, PatchInfo] = {
 SUPPORTED_VERSIONS = list(PATCH_DATA.keys())
 
 
+def get_latest_version() -> str:
+    """Get the latest version from PATCH_DATA based on semantic versioning."""
+    versions = list(PATCH_DATA.keys())
+
+    def parse_version(v: str) -> tuple[int, int, int]:
+        """Parse a version string into a tuple of integers."""
+        parts = v.split(".")
+        return tuple(int(p) for p in parts)  # type: ignore[return-value]
+
+    # Sort versions and get the latest
+    sorted_versions = sorted(versions, key=parse_version, reverse=True)
+    return sorted_versions[0]
+
+
 def download_file(url: str, dest: Path) -> None:
     """Download a file with progress indicator."""
     # Validate URL scheme for security
@@ -222,7 +236,7 @@ def clamp_vscode_version(extract_dir: Path, vscode_version: str | None) -> None:
 
 @app.command()
 def patch(
-    version: Annotated[str, typer.Argument(help="Pylance version to patch", show_choices=True)] = "2025.6.2",
+    version: Annotated[str, typer.Argument(help="Pylance version to patch", show_choices=True)] = get_latest_version(),
     output_dir: Annotated[Path, typer.Option("--output", "-o", help="Output directory")] = Path(),
     *,
     keep_temp: Annotated[bool, typer.Option("--keep-temp", help="Keep temporary files", is_flag=True)] = False,
