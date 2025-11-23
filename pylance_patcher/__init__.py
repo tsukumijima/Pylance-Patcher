@@ -1,8 +1,3 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = "~=3.13.0"
-# dependencies = ["typer>=0.12.0", "rich>=14.0.0"]
-# ///
 """A tool to patch the Pylance extension for compatibility with Cursor and other VS Code forks."""
 
 import gzip

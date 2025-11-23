@@ -3,11 +3,16 @@ name = "pylance-patcher"
 version = "0.0.0"
 description = "Patch Pylance to use with for VS Code forks"
 readme = "Readme.md"
-requires-python = "~=3.13.0"
+requires-python = ">=3.12.0"
 dependencies = [
   "rich>=14.0.0",
   "typer>=0.12.0",
 ]
+
+[tool.taskipy.tasks]
+lint = "ruff check --fix . ; pyright"
+format = "ruff format ."
+typecheck = "pyright"
 
 [project.scripts]
 pylance-patcher = "pylance_patcher:app"
@@ -16,6 +21,7 @@ pylance-patcher = "pylance_patcher:app"
 dev = [
   "pyright>=1.1.364",
   "ruff>=0.2.0",
+  "taskipy>=1.14.0",
 ]
 
 [build-system]
@@ -23,19 +29,16 @@ requires = ["uv_build>=0.7.19,<0.8.0"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-# UV's build backend expects modules in src/<package_name>/ by default.
-# Setting namespace=true allows flexible module discovery at the root,
-# which is necessary for GitHub Gists since they don't support directories.
-namespace = true
 module-root = ""
+module-name = "pylance_patcher"
 
 [tool.ruff]
 # 1行の長さを最大120文字に設定
 line-length = 120
 # インデントの幅を4スペースに設定
 indent-width = 4
-# Python 3.13 を利用する
-target-version = "py313"
+# Python 3.12 を利用する
+target-version = "py312"
 
 [tool.ruff.lint]
 # flake8, pycodestyle, pyupgrade, isort, Ruff 固有のルールを使う
@@ -60,7 +63,7 @@ indent-style = "space"
 
 [tool.pyright]
 # Python バージョンを指定
-pythonVersion = "3.13"
+pythonVersion = "3.12"
 # TypeCheckingMode を strict に設定（VSCode の設定と同等）
 typeCheckingMode = "strict"
 # プロジェクトルートを指定
