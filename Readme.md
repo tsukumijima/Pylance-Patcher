@@ -1,4 +1,4 @@
-# pylance-patcher
+# Pylance-Patcher
 
 A tool to patch the Pylance extension for compatibility with Cursor and other VS Code forks.
 
