@@ -186,23 +186,39 @@ def create_vsix(source_dir: Path, output_file: Path) -> None:
     console.print(f'[green]✓[/green] Created {output_file.name}')
 
 
-def update_extension_version(extract_dir: Path, version: str) -> None:
-    """Update version to include +patched suffix in package.json and manifest."""
+def update_extension_version(extract_dir: Path, version: str, override_version: str | None = None) -> None:
+    """Update version in package.json and manifest.
+
+    If override_version is provided, the version will be replaced with override_version.
+    Otherwise, +patched suffix will be added to the original version.
+    """
+    target_version = override_version if override_version is not None else f'{version}+patched'
+
     # Update version in package.json
     package_json_path = extract_dir / 'extension' / 'package.json'
     if package_json_path.exists():
         package_content = package_json_path.read_text(encoding='utf-8')
-        package_content = package_content.replace(f'"version": "{version}"', f'"version": "{version}+patched"')
+        package_content = package_content.replace(f'"version": "{version}"', f'"version": "{target_version}"')
         package_json_path.write_text(package_content, encoding='utf-8')
-        console.print(f'[green]✓[/green] Updated version in package.json to {version}+patched')
+        if override_version is not None:
+            console.print(
+                f'[green]✓[/green] Updated version in package.json to {target_version} (overridden from {version})'
+            )
+        else:
+            console.print(f'[green]✓[/green] Updated version in package.json to {target_version}')
 
     # Update version in extension.vsixmanifest
     manifest_path = extract_dir / 'extension.vsixmanifest'
     if manifest_path.exists():
         manifest_content = manifest_path.read_text(encoding='utf-8')
-        manifest_content = manifest_content.replace(f'Version="{version}"', f'Version="{version}+patched"')
+        manifest_content = manifest_content.replace(f'Version="{version}"', f'Version="{target_version}"')
         manifest_path.write_text(manifest_content, encoding='utf-8')
-        console.print(f'[green]✓[/green] Updated version in extension.vsixmanifest to {version}+patched')
+        if override_version is not None:
+            console.print(
+                f'[green]✓[/green] Updated version in extension.vsixmanifest to {target_version} (overridden from {version})'
+            )
+        else:
+            console.print(f'[green]✓[/green] Updated version in extension.vsixmanifest to {target_version}')
 
 
 def clamp_vscode_version(extract_dir: Path, vscode_version: str | None) -> None:
@@ -245,6 +261,12 @@ def patch(
         str | None,
         typer.Option('--vscode-version', help="Maximum VS Code version to require (e.g., '1.96')"),
     ] = '1.99',
+    override_version: Annotated[
+        str | None,
+        typer.Option(
+            '--override-version', help='Override version to use instead of the original version (default: 2024.8.1)'
+        ),
+    ] = '2024.8.1',
 ) -> None:
     """Download and patch Pylance VS Code extension.
 
@@ -253,6 +275,10 @@ def patch(
     The --vscode-version option clamps the required VS Code version if the extension
     requires a newer version. For example, use --vscode-version 1.96 to declare
     the extension compatible with VS Code 1.96.
+
+    The --override-version option allows you to override the extension version to prevent
+    Cursor from automatically reverting to an older version. By default, the version
+    is overridden to 2024.8.1.
     """
     if version not in SUPPORTED_VERSIONS:
         console.print(f'[red]✗[/red] Unsupported version: {version}')
@@ -289,8 +315,8 @@ def patch(
 
         patch_extension_bundle(bundle_path, version)
 
-        # Update version to include +patched suffix
-        update_extension_version(extract_dir, version)
+        # Update version (with override version if specified)
+        update_extension_version(extract_dir, version, override_version)
 
         # Clamp VS Code version if needed
         clamp_vscode_version(extract_dir, vscode_version)
