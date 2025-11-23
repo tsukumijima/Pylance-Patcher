@@ -2,7 +2,7 @@
 
 A tool to patch the Pylance extension for compatibility with Cursor and other VS Code forks.
 
-Jump to the main script: [pylance_patcher.py](#file-pylance_patcher-py)
+Jump to the main script: [pylance_patcher/__init__.py](pylance_patcher/__init__.py)
 
 Run as a standalone Python script using [uv](https://docs.astral.sh/uv/):
 
